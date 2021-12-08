@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeveloperTest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211207215541_AddCustomerTable")]
-    partial class AddCustomerTable
+    [Migration("20211208004104_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,9 @@ namespace DeveloperTest.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Engineer")
                         .HasColumnType("nvarchar(max)");
 
@@ -61,15 +64,27 @@ namespace DeveloperTest.Migrations
 
                     b.HasKey("JobId");
 
+                    b.HasIndex("CustomerId");
+
                     b.ToTable("Jobs");
 
                     b.HasData(
                         new
                         {
                             JobId = 1,
+                            CustomerId = 1,
                             Engineer = "Test",
-                            When = new DateTime(2021, 12, 7, 22, 55, 40, 867, DateTimeKind.Local).AddTicks(3115)
+                            When = new DateTime(2021, 12, 8, 1, 41, 3, 756, DateTimeKind.Local).AddTicks(9611)
                         });
+                });
+
+            modelBuilder.Entity("DeveloperTest.Database.Models.Job", b =>
+                {
+                    b.HasOne("DeveloperTest.Database.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

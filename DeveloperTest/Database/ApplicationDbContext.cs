@@ -19,21 +19,6 @@ namespace DeveloperTest.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Job>()
-                .HasKey(x => x.JobId);
-
-            modelBuilder.Entity<Job>()
-                .Property(x => x.JobId)
-                .ValueGeneratedOnAdd();
-
-            modelBuilder.Entity<Job>()
-                .HasData(new Job
-                {
-                    JobId = 1,
-                    Engineer = "Test",
-                    When = DateTime.Now
-                });
-
             modelBuilder.Entity<Customer>()
                 .HasKey(x => x.CustomerId);
 
@@ -46,6 +31,25 @@ namespace DeveloperTest.Database
                 {
                     CustomerId = 1,
                     Type = CustomerType.Small
+                });
+
+            modelBuilder.Entity<Job>()
+                .HasKey(x => x.JobId);
+
+            //modelBuilder.Entity<Job>()
+            //    .(x => x.CustomerId);
+
+            modelBuilder.Entity<Job>()
+                .Property(x => x.JobId)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Job>()
+                .HasData(new Job
+                {
+                    JobId = 1,
+                    Engineer = "Test",
+                    When = DateTime.Now,
+                    CustomerId = 1
                 });
         }
     }
